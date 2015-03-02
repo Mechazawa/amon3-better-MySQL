@@ -5,7 +5,7 @@ clean:
 	rm -f Dockerfile
 
 test: clean
-	cp mysql/Dockerfile Dockerfile
+	cp Dockerfile.build Dockerfile
 	docker build --rm=true .
 	rm Dockerfile
 
