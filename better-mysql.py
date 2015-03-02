@@ -52,14 +52,14 @@ class BetterMySQLPLugin(AmonPlugin):
         file = self.config.get('cache_file', '/tmp/amon-better-mysql')
         if not path.exists(file):
             open(file, 'a').close()  # Touches file
-            chmod(file, 700)
+            chmod(file, 0600)
         return file
 
     def _cache_load(self):
         file = self.config.get('cache_file', '/tmp/amon-better-mysql')
 
         with open(file) as f:
-            data = dict([line.split("|", 2) for line in f])
+            data = dict((k, int(v)) for k, v in [line.split("|", 2) for line in f])
 
         return data or False
 
@@ -69,44 +69,41 @@ class BetterMySQLPLugin(AmonPlugin):
         content = '\n'.join('%s|%i' % (k, v)
                             for k, v in data.items()
                             if k in self.TRACKED)
-        data['cache_timestamp'] = int(time())
+        content += '\ncache_timestamp|%i' % int(time())
 
         with open(file, 'w') as f:
             f.write(content)
 
     def collect(self):
+        self._connect()
+        self._cache_init()
+
+        self.cursor.execute("SHOW /*!50002 GLOBAL */ STATUS;")
+        results = dict(self.cursor.fetchall())
+        prev_cache = self._cache_load()
+
+        if isinstance(prev_cache, dict):
+            time_diff = int(time()) - prev_cache['cache_timestamp'] or 1
+
+        # Fetch stuff that is up for grabs
+        for k, v in results.items():
+            if k in self.TRACKED and isinstance(prev_cache, dict):
+                per_sec = (int(v) - prev_cache[k]) // time_diff
+                self.gauge(self.GAUGES['Tracked_' + k], per_sec)
+            if k in self.COUNTERS:
+                self.counter(self.COUNTERS[k], v)
+            if k in self.GAUGES:
+                self.gauge(self.GAUGES[k], v)
+
+        self._cache_save(results)
+
+        self.cursor.execute("SELECT VERSION();")
         try:
-            self._connect()
-            self._cache_init()
+            mysql_version = self.cursor.fetchone()[0]
+        except:
+            mysql_version = None
 
-            self.cursor.execute("SHOW /*!50002 GLOBAL */ STATUS;")
-            results = dict(self.cursor.fetchall())
-            prev_cache = self._cache_load()
-
-            if isinstance(prev_cache, dict):
-                time_diff = int(time()) - prev_cache['cache_timestamp'] or 1
-
-            # Fetch stuff that is up for grabs
-            for k, v in results.items():
-                if k in self.TRACKED and isinstance(prev_cache, dict):
-                    per_sec = (v - prev_cache[k]) // time_diff
-                    self.gauge(self.GAUGES['Tracked_' + k], per_sec)
-                if k in self.COUNTERS:
-                    self.counter(self.COUNTERS[k], v)
-                if k in self.GAUGES:
-                    self.gauge(self.GAUGES[k], v)
-
-            self._cache_save(results)
-
-            self.cursor.execute("SELECT VERSION();")
-            try:
-                mysql_version = self.cursor.fetchone()[0]
-            except:
-                mysql_version = None
-
-            self.version(mysql=mysql_version,
-                    plugin=self.VERSION,
-                    mysqldb=MySQLdb.__version__)
-
-        finally:
-            self._disconnect()
+        self.version(mysql=mysql_version,
+                plugin=self.VERSION,
+                mysqldb=MySQLdb.__version__)
+        self._disconnect()
