@@ -1,5 +1,6 @@
 {
     "user": "amon-better-mysql",
     "password": "{{ password }}",
-    "port": 3306
+    "port": 3306,
+    "cache_file": "/tmp/amon-better-mysql"
 }
