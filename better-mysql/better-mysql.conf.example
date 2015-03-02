@@ -1,0 +1,5 @@
+{
+    "user": "amon-better-mysql",
+    "password": "{{ password }}",
+    "port": 3306
+}

@@ -1,0 +1,38 @@
+- hosts: localhost
+  connection: local
+  sudo: True
+  vars:
+    plugins_path: "/etc/amonagent/plugins/better-mysql"
+    enabled_plugins: "/etc/amonagent/plugins-enabled"
+    name: "mysql"
+    password: "{{ lookup('password', '/tmp/passwordfile chars=ascii_letters') }}"
+  vars_prompt:
+  - name: "root_user"
+    prompt: "Please enter your root username (This will be used to create a readonly amon-better-mysql user)"
+    private: no
+    default: "root"
+  - name: "root_password"
+    prompt: "Please enter your root password"
+    private: no
+  tasks:
+    -
+      name: Install python-devel
+      yum: name=python-devel state=latest
+      when: ansible_os_family == "RedHat"
+    -
+      name: Install MySQL-python
+      yum: name=MySQL-python
+      when: ansible_os_family == "RedHat"
+    -
+      name: Install python-dev
+      apt: name=python-dev
+      when: ansible_os_family == "Debian"
+    -
+      name: Install python-mysqldb
+      apt: name=python-mysqldb
+      when: ansible_os_family == "Debian"
+    -
+      template: src={{ plugins_path }}/{{ name }}.conf.example dest={{ enabled_plugins }}/{{ name }}.conf
+    -
+      name: Add Amon user
+      mysql_user: login_user={{root_user}} login_password={{root_password}} name=amon-better-mysql password={{ password }} priv=*.*:"REPLICATION CLIENT, SELECT" state=present
