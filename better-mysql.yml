@@ -36,4 +36,4 @@
       template: src={{ plugins_path }}/{{ name }}.conf.example dest={{ enabled_plugins }}/{{ name }}.conf
     -
       name: Add Amon user
-      mysql_user: login_user={{root_user}} login_password={{root_password}} name=amon-better-mysql password={{ password }} priv=*.*:"REPLICATION CLIENT, SELECT" state=present
+      mysql_user: login_user={{root_user}} login_password={{root_password}} name=amon-bmysql password={{ password }} priv=*.*:"REPLICATION CLIENT, SELECT" state=present
