@@ -1,5 +1,5 @@
 {
-    "user": "amon-better-mysql",
+    "user": "amon-bmysql",
     "password": "{{ password }}",
     "port": 3306,
     "cache_file": "/tmp/amon-better-mysql"
