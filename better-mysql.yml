@@ -5,7 +5,7 @@
   vars:
     plugins_path: "/etc/amonagent/plugins/better-mysql"
     enabled_plugins: "/etc/amonagent/plugins-enabled"
-    name: "mysql"
+    name: "better-mysql"
     password: "{{ lookup('password', '/tmp/passwordfile chars=ascii_letters') }}"
   vars_prompt:
   - name: "root_user"
