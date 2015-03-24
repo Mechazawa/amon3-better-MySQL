@@ -7,10 +7,10 @@ This plugin extends the original mysql plugin by adding `tracked` variables. Thi
 to generate `x` per second graphs. Where `x` is the `tracked` variable. 
 
 ## Installation
-Browse to `/etc/amonagent/plugins` and execute the command `git clone https://github.com/Mechazawa/amon3-better-MySQL better-mysql`. This will clone the repository into the folder `/etc/amonagent/plugins/better-mysql`. After the git command has finished execute `amonpm install better-mysql`. To test the plugin run `amonpm test` **twice**. The first time will be used to grab the seed data. This data will be used to compare things like queries executed, bytes sent, etc. You will only need to run it twice the first time you test it. The file containnig the seed data can be found at `/tmp/amon-better-mysql`. 
+Browse to `/etc/amonagent/plugins` and execute the command `git clone https://github.com/Mechazawa/amon3-better-MySQL better-mysql`. This will clone the repository into the folder `/etc/amonagent/plugins/better-mysql`. After the git command has finished execute `amonpm install better-mysql`. To test the plugin run `amonpm test` **twice**. The first time will be used to grab the seed data. This data will be used to compare things like queries executed, bytes sent, etc. You will only need to run it twice the first time you test it. The file containing the seed data can be found at `/tmp/amon-better-mysql`. 
 
 ###Example output:
-Please note that the output has been prettfied and the command will most likely ouput a 'compressed' json object.
+Please note that the output has been prettified and the command will most likely ouput a 'compressed' json object.
 ```
 ------------------
   Better-Mysql
