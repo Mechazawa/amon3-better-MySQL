@@ -9,7 +9,7 @@ to generate `x` per second graphs. Where `x` is the `tracked` variable.
 ## Installation
 ```sh
 cd /etc/amonagent/plugins
-git clone https://github.com/Mechazawa/amon3-better-MySQL better-mysql`
+git clone https://github.com/Mechazawa/amon3-better-MySQL better-mysql
 amonpm install better-mysql && \
 amonpm test > /dev/null # Seed data
 ```
