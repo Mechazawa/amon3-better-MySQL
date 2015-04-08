@@ -30,12 +30,12 @@ Please note that the output has been prettified and the command will most likely
     'error': False,
     'gauges': {
         'info.connections': '3',
-        'performance.cache_hits_per_second': 1,
-        'net.bytes_per_second': 2204,
-        'performance.queries_per_second': 2
+        'performance.cache.hits.per.second': 1,
+        'net.bytes.per.second': 2204,
+        'performance.queries.per.second': 2
     },
     'counters': {
-        'net.total_connections': '106801'
+        'net.total.connections': '106801'
     }
 }
 
