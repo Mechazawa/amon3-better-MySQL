@@ -19,13 +19,13 @@ class BetterMySQLPLugin(AmonPlugin):
         'Threads_connected': 'info.connections',
 
         # Tracked variables
-        'Tracked_Bytes_sent':  'net.bytes_per_second',
-        'Tracked_Queries':     'performance.queries_per_second',
-        'Tracked_Qcache_hits': 'performance.cache_hits_per_second',
+        'Tracked_Bytes_sent':  'net.bytes.per.second',
+        'Tracked_Queries':     'performance.queries.per.second',
+        'Tracked_Qcache_hits': 'performance.cache.hits.per.second',
     }
 
     COUNTERS = {
-        'Connections': 'net.total_connections',
+        'Connections': 'net.total.connections',
     }
 
     def _connect(self):
