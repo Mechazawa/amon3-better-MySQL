@@ -6,7 +6,7 @@ from amonagent.modules.plugins import AmonPlugin
 
 class BetterMySQLPLugin(AmonPlugin):
 
-    VERSION = '0.2'
+    VERSION = '0.3'
 
     # Tracked for 'per second'
     TRACKED = [
