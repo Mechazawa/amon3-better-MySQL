@@ -6,7 +6,7 @@ from amonagent.modules.plugins import AmonPlugin
 
 class BetterMySQLPLugin(AmonPlugin):
 
-    VERSION = '0.3'
+    VERSION = '0.3.1'
 
     # Tracked for 'per second'
     TRACKED = [
@@ -19,13 +19,13 @@ class BetterMySQLPLugin(AmonPlugin):
         'Threads_connected': 'info.connections',
 
         # Tracked variables
-        'Tracked_Bytes_sent':  'net.bytes.per.second',
-        'Tracked_Queries':     'performance.queries.per.second',
-        'Tracked_Qcache_hits': 'performance.cache.hits.per.second',
+        'Tracked_Bytes_sent':  'net.bytes_per_second',
+        'Tracked_Queries':     'performance.queries_per_second',
+        'Tracked_Qcache_hits': 'performance.cache_hits_per_second',
     }
 
     COUNTERS = {
-        'Connections': 'net.total.connections',
+        'Connections': 'net.total_connections',
     }
 
     def _connect(self):
